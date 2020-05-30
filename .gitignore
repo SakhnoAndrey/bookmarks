@@ -1,0 +1,9 @@
+syntax: glob
+.idea
+.vagrant
+*.pyc
+bower_components
+package-lock.json
+test/files/*
+tdway/static/img/titles
+.env_compose_prod
