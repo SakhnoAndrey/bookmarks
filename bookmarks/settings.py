@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import environ
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -18,13 +19,25 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False)
+)
+
+# reading .env file
+environ.Env.read_env()
+
+# False if not in os.environ
+DEBUG = env("DEBUG")
+
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "1ue+&_i)(-dj74pzavfblrv$3l*bnzk^y14!8qyd-=9a0k7ror"
+# Raises django's ImproperlyConfigured exception if SECRET_KEY not in os.environ
+SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["mysite.com", "localhost", "127.0.0.1"]
 
 # Application definition
 
@@ -36,6 +49,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "social_django",
 ]
 
 MIDDLEWARE = [
@@ -120,3 +134,16 @@ LOGOUT_URL = "logout"
 # Email configuration
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+# Authentication backends
+
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+    "account.authentication.EmailAuthBackend",
+    "social_core.backends.facebook.FacebookOAuth2",
+]
+
+# Facebook settings
+SOCIAL_AUTH_FACEBOOK_KEY = env("SOCIAL_AUTH_FACEBOOK_KEY")  # Facebook app ID
+SOCIAL_AUTH_FACEBOOK_SECRET = env("SOCIAL_AUTH_FACEBOOK_SECRET")  # Facebook App Secret
+SOCIAL_AUTH_FACEBOOK_SCOPE = ["email"]

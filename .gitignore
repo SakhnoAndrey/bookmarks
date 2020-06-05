@@ -97,4 +97,6 @@ flask_profiler.sql
 
 *.log
 
+bookmarks/.env
+
 /media/
