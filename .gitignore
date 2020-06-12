@@ -88,7 +88,7 @@ ENV/
 
 # Rope project settings
 .ropeproject
-.idea
+../.idea
 flask_profiler.sql
 flask_profiler.sql
 *.gz
