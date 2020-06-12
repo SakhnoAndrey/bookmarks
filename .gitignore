@@ -100,3 +100,4 @@ flask_profiler.sql
 bookmarks/.env
 
 /media/
+.idea
