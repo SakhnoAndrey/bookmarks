@@ -1,0 +1,53 @@
+version: '3.7'
+
+services:
+  db:
+    restart: always
+    image: postgres
+    ports:
+      - "5434:5432"
+    volumes:
+      - db-backup:/backup
+    env_file:
+      - .env_compose_local
+  web:
+    restart: always
+    build: ./web
+    command: /app/docker-entrypoint.sh
+    env_file: .env_compose_local
+    expose:
+      - 8000
+    volumes:
+      - ./web:/app
+      - db-backup:/app/backup
+      - web-static:/app/static
+      - web-media:/app/media
+    depends_on:
+      - db
+  nginx:
+    restart: always
+    build: ./nginx/
+    ports:
+      - "8004:80"
+    volumes:
+      - web-static:/www/static
+      - web-media:/www/media
+    links:
+      - web:web
+    depends_on:
+      - web
+
+volumes:
+  web-static:
+  web-media:
+    name: dev-media-bm
+    driver_opts:
+      type: none
+      device: /www/bookmarks/media
+      o: bind
+  db-backup:
+    name: dev-backup-bm
+    driver_opts:
+      type: none
+      device: /www/bookmarks/backup
+      o: bind
