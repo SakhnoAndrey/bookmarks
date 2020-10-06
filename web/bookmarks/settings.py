@@ -35,7 +35,7 @@ DEBUG = env("DEBUG")
 SECRET_KEY = env("SECRET_KEY")
 
 # Database settings
-POSTGRES_NAME_DB = env("POSTGRES_NAME_DB")
+POSTGRES_DB = env("POSTGRES_DB")
 POSTGRES_USER = env("POSTGRES_USER")
 POSTGRES_PASSWORD = env("POSTGRES_PASSWORD")
 
@@ -91,12 +91,7 @@ WSGI_APPLICATION = "bookmarks.wsgi.application"
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": POSTGRES_NAME_DB,
-        "USER": POSTGRES_USER,
-        "PASSWORD": POSTGRES_PASSWORD,
-    }
+    "default": env.db("BOOKMARKS_DATABASE_URL"),
 }
 
 # Password validation

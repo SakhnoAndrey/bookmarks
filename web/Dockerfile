@@ -14,7 +14,7 @@ WORKDIR /app
 RUN pip install -r requirements.txt
 
 # Copy project
-COPY . /app
+# #COPY . /app
 
 # Run project
 # RUN ["chmod", "+x", "/app/docker-entrypoint.sh"]
